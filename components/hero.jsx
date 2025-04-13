@@ -9,7 +9,7 @@ const HeroSection = () => {
   const imageRef = useRef();
   useEffect(() => {
     const imageElement = imageRef.current;
-    window.addEventListener("scroll", () => {
+    const handleScroll = () => {
       const scrollPosition = window.scrollY;
       const scrollThreshold = 100;
 
@@ -18,8 +18,9 @@ const HeroSection = () => {
       } else {
         imageElement.classList.remove("scrolled");
       }
-    });
-     
+    };
+    window.addEventListener("scroll", handleScroll);
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   return (

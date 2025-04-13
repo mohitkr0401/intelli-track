@@ -14,8 +14,8 @@ function Header() {
             src={"/logo3.png"}
             alt="intelli-track logo"
             height={60}
-            width={200}
-            className="h-16 w-auto object-contain"
+            width={1000}
+            className="h-14 w-auto object-contain"
           />
         </Link>
         <div className="flex items-center space-x-4">
