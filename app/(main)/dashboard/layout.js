@@ -1,4 +1,6 @@
-import React from "react";
+import React, { Suspense } from "react";
+import DashboardPage from "./page";
+import BarLoader from './../../../node_modules/react-spinners/esm/BarLoader';
 
 const DashboardLayout = () => {
   return (
@@ -7,6 +9,10 @@ const DashboardLayout = () => {
         <h1>Dashboard</h1>
       </div>
       {/* Dashboard Page */}
+      <Suspense fallback={<BarLoader className="mt-4" width={"100%"} color="#9333ea"/>}> 
+
+      </Suspense>
+      <DashboardPage />
     </div>
   );
 };
