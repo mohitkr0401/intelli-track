@@ -3,8 +3,10 @@ import { LayoutDashboard, LogOut, PenBox } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
+import { checkUser } from "@/lib/checkUser";
 
-function Header() {
+const Header = async () => {
+  await checkUser();
   return (
     <div className="fixed top-0 w-full bg-white  z-10 border-b">
       {/* <nav className="container mx-auto  py-4 flex items-center justify-between"> */}
