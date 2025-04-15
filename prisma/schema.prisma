@@ -34,7 +34,7 @@ model Account {
   name         String
   type         AccountType
   balance      Decimal       @default(0)
-  isdefault    Boolean       @default(false)
+  isDefault    Boolean       @default(false)
   userId       String
   user         User          @relation(fields: [userId], references: [id], onDelete: Cascade) // Cascade delete, if user is deleted, delete all accounts 
   transactions Transaction[]

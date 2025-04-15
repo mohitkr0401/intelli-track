@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { useFormState } from "react-dom";
 import { toast } from "sonner";
 
 const useFetch = (cb) => {
-  const [data, setData] = useFormState(undefined); //useFormState
+  const [data, setData] = useState(undefined); //useFormState
   const [loading, setLoading] = useState(null);
   const [error, setError] = useState(null);
 
