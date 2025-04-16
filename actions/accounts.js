@@ -4,7 +4,8 @@ import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 
-const serializeDecimal = (obj) => {
+
+const serializeTransaction = (obj) => {
   const serialized = { ...obj };
   if (obj.balance) {
     serialized.balance = obj.balance.toNumber();
@@ -27,7 +28,7 @@ export async function getAccountWithTransactions(accountId) {
 
   const account = await db.account.findUnique({
     where: {
-      id: accountId,
+      id: accountId, 
       userId: user.id,
     },
     include: {
@@ -43,8 +44,8 @@ export async function getAccountWithTransactions(accountId) {
   if (!account) return null;
 
   return {
-    ...serializeDecimal(account),
-    transactions: account.transactions.map(serializeDecimal),
+    ...serializeTransaction(account),
+    transactions: account.transactions.map(serializeTransaction),
   };
 }
 
@@ -144,7 +145,9 @@ export async function updateDefaultAccount(accountId) {
 
     revalidatePath("/dashboard");
     return { success: true, data: serializeTransaction(account) };
+    
   } catch (error) {
     return { success: false, error: error.message };
+
   }
 }

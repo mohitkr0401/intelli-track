@@ -40,7 +40,7 @@ export function AccountCard({ account }) {
     if (updatedAccount?.success) {
       toast.success("Default account updated successfully");
     }
-  }, [updatedAccount]);
+  }, [updatedAccount, updateDefaultLoading]);
 
   useEffect(() => {
     if (error) {
