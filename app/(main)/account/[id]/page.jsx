@@ -1,10 +1,12 @@
-import { getAccountWithTransactions } from "@/actions/accounts";
-import { notFound } from "next/navigation";
-import React, { Suspense } from "react";
+import { Suspense } from "react";
+import { getAccountWithTransactions } from "@/actions/account";
 import { BarLoader } from "react-spinners";
+
+import { notFound } from "next/navigation";
+import { AccountChart } from "../_components/account-chart";
 import TransactionTable from "../_components/transaction-table";
 
-const AccountsPage = async ({ params }) => {
+export default async function AccountPage({ params }) {
   const accountData = await getAccountWithTransactions(params.id);
 
   if (!accountData) {
@@ -27,7 +29,7 @@ const AccountsPage = async ({ params }) => {
 
         <div className="text-right pb-2">
           <div className="text-xl sm:text-2xl font-bold">
-            ₹{parseFloat(account.balance).toFixed(2)}
+          ₹{parseFloat(account.balance).toFixed(2)}
           </div>
           <p className="text-sm text-muted-foreground">
             {account._count.transactions} Transactions
@@ -35,11 +37,11 @@ const AccountsPage = async ({ params }) => {
         </div>
       </div>
       {/* Chart Section */}
-      {/* <Suspense
+      <Suspense
         fallback={<BarLoader className="mt-4" width={"100%"} color="#9333ea" />}
       >
         <AccountChart transactions={transactions} />
-      </Suspense> */}
+      </Suspense>
 
       {/* Transactions Table */}
       <Suspense
@@ -49,6 +51,4 @@ const AccountsPage = async ({ params }) => {
       </Suspense>
     </div>
   );
-};
-
-export default AccountsPage;
+}

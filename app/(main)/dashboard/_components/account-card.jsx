@@ -13,7 +13,7 @@ import Link from "next/link";
 import useFetch from "@/hooks/use-fetch";
 import { toast } from "sonner";
 import { useEffect } from "react";
-import { updateDefaultAccount } from "@/actions/accounts";
+import { updateDefaultAccount } from "@/actions/account";
 
 export function AccountCard({ account }) {
   const { name, id, type, balance, isDefault } = account;
@@ -55,9 +55,10 @@ export function AccountCard({ account }) {
           <CardTitle className="text-sm font-medium capitalize">
             {name}
           </CardTitle>
-          <Switch checked={isDefault}
-          onClick={handleDefaultChange}
-          disabled={updateDefaultLoading} 
+          <Switch
+            checked={isDefault}
+            onClick={handleDefaultChange}
+            disabled={updateDefaultLoading}
           />
         </CardHeader>
         <CardContent>
