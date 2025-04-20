@@ -4,7 +4,6 @@ import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 
-
 const serializeTransaction = (obj) => {
   const serialized = { ...obj };
   if (obj.balance) {
@@ -28,7 +27,7 @@ export async function getAccountWithTransactions(accountId) {
 
   const account = await db.account.findUnique({
     where: {
-      id: accountId, 
+      id: accountId,
       userId: user.id,
     },
     include: {
@@ -80,6 +79,7 @@ export async function bulkDeleteTransactions(transactionIds) {
 
     // Delete transactions and update account balances in a transaction
     await db.$transaction(async (tx) => {
+      //$transaction is prisma's way to run multiple queries in a single transaction
       // Delete transactions
       await tx.transaction.deleteMany({
         where: {
@@ -145,9 +145,7 @@ export async function updateDefaultAccount(accountId) {
 
     revalidatePath("/dashboard");
     return { success: true, data: serializeTransaction(account) };
-    
   } catch (error) {
     return { success: false, error: error.message };
-
   }
 }
