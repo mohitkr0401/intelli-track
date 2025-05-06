@@ -3,11 +3,11 @@
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+// import { GoogleGenerativeAI } from "@google/generative-ai";
 import aj from "@/lib/arcjet";
 import { request } from "@arcjet/next";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+// const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const serializeAmount = (obj) => ({
   ...obj,
@@ -70,12 +70,14 @@ export async function createTransaction(data) {
     const newBalance = account.balance.toNumber() + balanceChange;
 
     // Create transaction and update account balance
+    //$transaction means it is a prisma transaction not actual transaction
+    //it is a reserved keyword
     const transaction = await db.$transaction(async (tx) => {
       const newTransaction = await tx.transaction.create({
         data: {
           ...data,
           userId: user.id,
-          nextRecurringDate:
+          nextRecurDate:
             data.isRecurring && data.recurringInterval
               ? calculateNextRecurringDate(data.date, data.recurringInterval)
               : null,
@@ -165,7 +167,7 @@ export async function updateTransaction(id, data) {
         },
         data: {
           ...data,
-          nextRecurringDate:
+          nextRecurDate:
             data.isRecurring && data.recurringInterval
               ? calculateNextRecurringDate(data.date, data.recurringInterval)
               : null,
