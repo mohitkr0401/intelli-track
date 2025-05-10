@@ -5,7 +5,11 @@ import CreateAccountDrawer from "@/components/create-account-drawer";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -107,7 +111,7 @@ const AddTransactionForm = ({
 
   const handleScanComplete = (scannedData) => {
     console.log(scannedData);
-    
+
     if (scannedData) {
       setValue("amount", scannedData.amount.toString());
       setValue("date", new Date(scannedData.date));
@@ -194,7 +198,7 @@ const AddTransactionForm = ({
       {/* Category */}
       <div className="space-y-2">
         <label className="text-sm font-medium">Category</label>
-        <Select
+        {/* <Select
           onValueChange={(value) => setValue("category", value)}
           defaultValue={getValues("category")}
         >
@@ -208,21 +212,36 @@ const AddTransactionForm = ({
               </SelectItem>
             ))}
           </SelectContent>
+        </Select> */}
+        <Select
+          onValueChange={(value) => setValue("category", value)}
+          value={watch("category")} // <-- Ensures UI updates correctly
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select category" />
+          </SelectTrigger>
+          <SelectContent>
+            {filteredCategories.map((category) => (
+              <SelectItem key={category.id} value={category.id}>
+                {category.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
         </Select>
+
         {errors.category && (
           <p className="text-sm text-red-500">{errors.category.message}</p>
         )}
       </div>
 
-       {/* Date */}
-       <div className="space-y-2">
+      {/* Date */}
+      <div className="space-y-2">
         <label className="text-sm font-medium">Date</label>
         <Popover>
           <PopoverTrigger asChild>
             <Button
               variant="outline"
-              className={(
-                "w-full pl-3 text-left font-normal")}
+              className={"w-full pl-3 text-left font-normal"}
             >
               {date ? format(date, "PPP") : <span>Pick a date</span>}
               <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
@@ -254,8 +273,8 @@ const AddTransactionForm = ({
         )}
       </div>
 
-       {/* Recurring Toggle */}
-       <div className="flex flex-row items-center justify-between rounded-lg border p-4">
+      {/* Recurring Toggle */}
+      <div className="flex flex-row items-center justify-between rounded-lg border p-4">
         <div className="space-y-0.5">
           <label className="text-base font-medium">Recurring Transaction</label>
           <div className="text-sm text-muted-foreground">
