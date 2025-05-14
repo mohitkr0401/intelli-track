@@ -4,9 +4,13 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
+import { LayoutDashboard } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
 
 const HeroSection = () => {
   const imageRef = useRef();
+  const { isSignedIn } = useUser();
+
   useEffect(() => {
     const imageElement = imageRef.current;
     const handleScroll = () => {
@@ -37,14 +41,17 @@ const HeroSection = () => {
         <div className="flex justify-center space-x-4">
           <Link href="/dashboard">
             <Button size="lg" className="px-8">
-              Get Started
+              <LayoutDashboard size={18} />
+              Go to Dashboard
             </Button>
           </Link>
-          <Link href="/sign-up">
-            <Button variant="outline" size="lg" className="px-8">
-              Sign up
-            </Button>
-          </Link>
+          {!isSignedIn && (
+            <Link href="/sign-up">
+              <Button variant="outline" size="lg" className="px-8">
+                Sign up
+              </Button>
+            </Link>
+          )}
         </div>
         <div className="hero-image-wrapper">
           <div ref={imageRef} className="hero-image">

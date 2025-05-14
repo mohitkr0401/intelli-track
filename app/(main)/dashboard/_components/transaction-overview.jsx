@@ -22,14 +22,24 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
+// const COLORS = [
+//   "#FF6B6B",
+//   "#4ECDC4",
+//   "#45B7D1",
+//   "#96CEB4",
+//   "#FFEEAD",
+//   "#D4A5A5",
+//   "#9FA8DA",
+// ];
 const COLORS = [
-  "#FF6B6B",
-  "#4ECDC4",
-  "#45B7D1",
-  "#96CEB4",
-  "#FFEEAD",
-  "#D4A5A5",
-  "#9FA8DA",
+  "#4e79a7", // Blue
+  "#f28e2c", // Orange
+  "#e15759", // Red
+  "#76b7b2", // Teal
+  "#59a14f", // Green
+  "#edc949", // Yellow
+  "#af7aa1", // Purple
+  "#ff9da7", // Pink
 ];
 
 export function DashboardOverview({ accounts, transactions }) {
@@ -69,12 +79,19 @@ export function DashboardOverview({ accounts, transactions }) {
   }, {});
 
   // Format data for pie chart
+  // const pieChartData = Object.entries(expensesByCategory).map(
+  //   ([category, amount]) => ({
+  //     name: category,
+  //     value: amount,
+  //   })
+  // );
   const pieChartData = Object.entries(expensesByCategory).map(
-    ([category, amount]) => ({
-      name: category,
-      value: amount,
-    })
-  );
+  ([category, amount]) => ({
+    name: category.charAt(0).toUpperCase() + category.slice(1),
+    value: amount,
+  })
+);
+
 
   return (
     <div className="grid gap-4 md:grid-cols-2">
@@ -167,7 +184,9 @@ export function DashboardOverview({ accounts, transactions }) {
                     outerRadius={80}
                     fill="#8884d8"
                     dataKey="value"
-                    label={({ name, value }) => `${name}: ₹${value.toFixed(2)}`}
+                    label={({ name, value }) =>
+                      `${name.charAt(0).toUpperCase() + name.slice(1)}: ₹${value.toFixed(2)}`
+                    }
                   >
                     {pieChartData.map((entry, index) => (
                       <Cell
@@ -184,7 +203,12 @@ export function DashboardOverview({ accounts, transactions }) {
                       borderRadius: "var(--radius)",
                     }}
                   />
-                  <Legend />
+                  <Legend
+                    wrapperStyle={{
+                      fontWeight: "bold",
+                      fontSize: 14,
+                    }}
+                  />
                 </PieChart>
               </ResponsiveContainer>
             </div>
